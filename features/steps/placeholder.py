@@ -11,8 +11,9 @@ from hamcrest import assert_that, equal_to, is_
 
 from pptx import Presentation
 
-from .helpers import saved_pptx_path, test_text
+from .helpers import saved_pptx_path, test_text, test_pptx
 
+table_placeholder_pptx_path = test_pptx('table-placeholder')
 
 # given ===================================================
 
@@ -23,6 +24,15 @@ def given_a_bullet_body_placeholder(context):
     context.sld = context.prs.slides.add_slide(slidelayout)
     context.body = context.sld.shapes.placeholders[1]
 
+@given('I have a reference to a slide with a table placeholder')
+def step_given_ref_to_table_slide(context):
+    context.prs = Presentation(table_placeholder_pptx_path)
+    slidelayout = context.prs.slidelayouts[1]
+    context.sld = context.prs.slides.add_slide(slidelayout)
+
+@given('a table placeholder shape')
+def step_given_table_placeholder_shape(context):
+    context.shp = context.sld.shapes.placeholders[1]
 
 # when ====================================================
 
@@ -35,6 +45,9 @@ def step_when_indent_first_paragraph(context):
 def step_when_set_slide_title_text(context):
     context.sld.shapes.title.text = test_text
 
+@when('I insert a table into the placeholder')
+def step_when_insert_table(context):
+    context.tbl = context.shp.insert_table(3,5)
 
 # then ====================================================
 
