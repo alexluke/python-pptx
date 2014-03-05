@@ -108,7 +108,7 @@ class Placeholder(object):
         ## This could probably be done more sanely by passing an idx or ph
         ## to the new_table call.
         nvPr = Element('p:nvPr')
-        graphicFrame.insert(0, nvPr)
+        graphicFrame.nvGraphicFramePr.insert(0, nvPr)
         ph = Element('p:ph')
         nvPr.insert(0, ph)
         ph.set('idx', str(self.idx))
