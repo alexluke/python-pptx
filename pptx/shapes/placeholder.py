@@ -107,12 +107,11 @@ class Placeholder(object):
         ## Make sure we set the related placeholder element in the new GraphicFrame
         ## This could probably be done more sanely by passing an idx or ph
         ## to the new_table call.
-        nvPr = Element('p:nvPr')
-        graphicFrame.nvGraphicFramePr.insert(0, nvPr)
+        nvPr = graphicFrame.nvGraphicFramePr.nvPr
         ph = Element('p:ph')
         nvPr.insert(0, ph)
-        ph.set('idx', str(self.idx))
         ph.set('type', 'tbl')
+        ph.set('idx', str(self.idx))
 
         table = Table(graphicFrame, self._parent)
         this_shape_index = shapetree.index(underlying_shape)
