@@ -159,6 +159,23 @@ class SlideCollection(object):
         self._sldIdLst.add_sldId(rId)
         return slide
 
+    def remove_slide(self, idx):
+        """
+        Remove the slide as position ``idx``
+        """
+        if idx >= len(self._sldIdLst):
+            raise IndexError('slide index out of range')
+        relation = self._sldIdLst[idx]
+        slide = self[idx]
+
+        for rel in slide.related_parts.keys():
+            slide.drop_rel(rel)
+
+        self._prs.drop_rel(relation.rId)
+
+        self._sldIdLst.remove(relation)
+        self.rename_slides()
+
     def rename_slides(self):
         """
         Assign partnames like ``/ppt/slides/slide9.xml`` to all slides in the
